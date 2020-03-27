@@ -31,12 +31,7 @@ jobs:
     - uses: malinskiy/action-android/install-sdk@release/0.0.5
       
     - name: Android NDK toolchain Setup
-      uses: ravinderjangra/android-ndk-toolchain-setup@0.1
-      with:
-          api: '21'
-          arch: 'aarch64'
-          install-location: 'toolchains'
-          force: true
+      run: echo "y" | $ANDROID_HOME/tools/bin/sdkmanager "ndk;21.0.6113669" "cmake;3.10.2.4988404"
         
     - name: Run rust install
       run: |
