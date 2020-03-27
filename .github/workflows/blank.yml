@@ -33,17 +33,18 @@ jobs:
     - name: Android NDK toolchain Setup
       run: echo "y" | $ANDROID_HOME/tools/bin/sdkmanager "ndk;21.0.6113669" "cmake;3.10.2.4988404"
         
-    - name: Run rust install
-      run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-        source $HOME/.cargo/env
-        rustup target add aarch64-linux-android
+    - name: Install latest nightly rust
+      uses: actions-rs/toolchain@v1
+      with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
 
-    # Runs a set of commands using the runners shell
-    - name: Run code clone
+    - name: many things
       run: |
         hg --version
         source $HOME/.cargo/env
+        rustup target add aarch64-linux-android
         git init gecko && cd gecko
         git config fetch.prune true
         git config push.default upstream
