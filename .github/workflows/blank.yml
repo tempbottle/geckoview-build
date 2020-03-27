@@ -33,9 +33,10 @@ jobs:
     - name: Android NDK toolchain Setup
       uses: ravinderjangra/android-ndk-toolchain-setup@0.1
       with:
-        # Force install toolchain
-        force: true
-        arch: aarch64 
+          api: '21'
+          arch: 'aarch64'
+          install-location: 'toolchains'
+          force: true
         
     - name: Run rust install
       run: |
