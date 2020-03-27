@@ -35,6 +35,7 @@ jobs:
       with:
         # Force install toolchain
         force: true
+        arch: aarch64 
         
     - name: Run rust install
       run: |
