@@ -39,12 +39,15 @@ jobs:
           toolchain: nightly
           override: true
           components: rustfmt, clippy
+          target: aarch64-linux-android 
 
-    - name: many things
+    - name: views
       run: |
         hg --version
         source $HOME/.cargo/env
-        rustup target add aarch64-linux-android
+
+    - name: fetch geckoview code
+      run: |
         git init gecko && cd gecko
         git config fetch.prune true
         git config push.default upstream
@@ -59,11 +62,20 @@ jobs:
         git config remote.try.push +HEAD:refs/heads/branches/default/tip
         git remote update
         git checkout central/default
+        
+    - name: xcode and bootstrap
+      run: |
         sudo xcode-select  --switch /Applications/Xcode.app 
-        ./mach bootstrap –no-interactive
+        echo "y" | ./mach bootstrap
+        
+    - name: mozconfig gen
+      run: |   
         echo 'ac_add_options --enable-application=mobile/android' > mozconfig 
         echo '\n' >> mozconfig
         echo 'ac_add_options --target=aarch64' >> mozconfig
+        
+    - name: build out
+      run: |  
         ./mach configure
         ./mach build
         ./mach package 
